@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8">
+		<title>Minha Primeira Página Web</title>
+      </head>
+	<body>
+      <div class= "fundo-da-pagina">
+		<h1>Apague o FOGO</h1>
+		<p>Esta é minha primeira página web.</p>
+	<button id="botao">Clique aqui</button>
+    <p id="mensagem"></p>
+        <button id="botao2">Jogue àgua</button>
+             <script>
+          const botao2 = document.getElementById("botao2")
+          const botao = document.getElementById("botao");
+          const mensagem = document.getElementById("mensagem");
+               
+botao2.addEventListener("click", function() {
+  mensagem.innerHTML = `
+    <p>splash🌊</p>
+    <img src="https://i.pinimg.com/originals/f0/a3/0a/f0a30aff5df8550fe78664c46efc7ed3.gif" width="200px" height="100px">
+  `;
+  mensagem.classList.remove("paragrafo");
+});
+  
+ botao.addEventListener("click", function() {
+         mensagem.innerHTML = `
+      <p>kaboom 😎🔥</p>
+      <img src="https://i.pinimg.com/originals/9d/1a/9d/9d1a9df0ec27d025b8f3d21a9bf4e561.gif" width="200">
+    `;
+
+      mensagem.classList.add("paragrafo");
+    });
+              </script>
+      </div>
+	</body>
+</html>
+
+
+CSS
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+    background-color: lightgray;
+}
+
+h1 { 
+    color: orange;
+}
+
+p {
+    color: #666;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+    margin-top: 5px;
+}
+.fundo-da-pagina{
+  padding: 80px;
+  border: 2px solid black;
+  margin: 0 auto;
+  height:500px;
+  width:380px;
+  background-color: white;
+}
+.paragrafo{
+  background-color: lightgray;
+  border: 1px solid black;
+  padding: 10px;
+}

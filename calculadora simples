@@ -1,0 +1,68 @@
+<div class="fundo_da_pagina">   
+  <h1>Calculadora simples</h1>   
+  <form>
+    <label>Valor de A</label>
+    <input type="number" id="v1"/>
+    <br>
+    <br>
+     <label>Valor de B</label>
+    <input type="number" id="v2"/>
+    <br>
+    <br>
+    <label>Operação</label>
+    <select id="oper">
+      <option>soma</option>
+      <option>subtracao</option>
+      <option>divisao</option>
+      <option>multiplicacao</option>
+      <option>exponenciacao</option>
+    </select>
+    <br>
+    <br>
+    <a href="#" onclick="executar()">Executar</a>
+  </form>
+  </div>
+  <div id="resposta">O resultado foi: </div>
+  <script src= "ROT_MOD1-NC3.js"></script>
+
+  JAVA
+
+  function somar(a,b){return a+b};
+function subtrair(a,b){return a-b};
+function multiplicar(a,b){return a*b};
+
+function dividir(a,b){
+  if(b==0 || a ==0)
+    alert("Erro");
+  return a/b;
+};
+function exponencial(a,b){
+  return Math.pow(a,b)
+}function executar (){
+        
+    const a = Number(document.getElementById("v1").value);
+    const b = Number(document.getElementById("v2").value);
+    const oper = document.getElementById("oper").selectedIndex;
+
+    let resultado;
+
+    if (oper == 0) resultado = somar(a,b);
+    else if (oper == 1) resultado = subtrair(a,b);
+    else if (oper == 2) resultado = dividir(a,b);
+    else if (oper == 3) resultado = multiplicar(a,b);
+    else if (oper == 4) resultado = exponencial(a,b);
+
+    document.getElementById("resposta").innerHTML =
+        "O resultado foi: " + resultado;
+      }
+
+
+CSS
+
+.fundo_da_pagina{
+      background-color:lightgray;
+      padding: 15px;
+      border: 1px solid black;
+      width: 450px;
+      margin: 0 auto;
+    }

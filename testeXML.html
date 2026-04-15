@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<title>Requisição XMLHttpRequest</title>
+<style>
+     .fundo-da-pagina{
+          background-color: #f0f0f0;
+          font-family: Arial, sans-serif;
+          text-align: center;
+          padding: 20px 100px 20px 100px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 50%;
+          margin: 50px auto;
+     }
+     .h1 {
+          color: #333;
+          font: bold 24px Arial, sans-serif;
+          background-color: #333;
+          color: #fff;
+          padding: 10px;
+          border-radius: 5px;
+     }
+     .button {
+          background-color: #717879;
+          color: white;
+          padding: 10px 20px;
+          margin-top: 20pxs;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: transform 0.2s, background-color 0.2s;
+     }
+     .button:hover {
+          background-color: #555;
+          transform: scale(1.1);
+     }
+     img {
+          margin-top: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 500px ;
+          height: 700px;
+     }
+     .img2 {
+          margin-top: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 500px ;
+          height: 700px;
+     }
+     .button:animation {
+          animation: fadeIn 1s ease-in-out;;
+     }
+     .vs {
+          color: #cc111185;
+          margin-top: 350px;
+     }
+</style>
+</head>
+<body class="fundo-da-pagina">
+	<h1 class="h1">X1 de cachorros</h1>
+	<p>A partir do click no botão abaixo uma nova imagem aleatória de cachorros será carregada, defenda com argumentos técnicos quem ganha o <strong>X1</strong></p>
+
+         <div style="display: flex; justify-content: center; gap: 20px;">
+             <img id="img_dog" src="" alt="Aguardando a imagem ser carregada" />
+             <h1 class="vs"> VS</h1>
+             <img class="img2" id="img_dog2" src="" alt="Aguardando a imagem ser carregada" />
+         </div>
+         <br/>
+	<button class="button" onclick="carregarImagens(), carregarSegundaImagem()">Carregar Imagens</button>
+</body>
+	<script type="text/javascript">
+
+		function carregarImagens(){
+
+			var url = "https://dog.ceo/api/breeds/image/random";
+			fetch(url, { 
+				method: 'get',
+			})
+			.then(function(response) { 
+				response.json().then(function(data){
+					console.log('Resultado da Requisição: ' + data.message); 
+
+					var imgDog = document.getElementById("img_dog");
+					imgDog.src = data.message;
+				});
+			})
+			.catch(function(err) { 
+				console.error('O seguinte erro ocorreu durante a requisição: ' + err);
+			});
+
+		}
+          function carregarSegundaImagem(){
+
+               var url = "https://dog.ceo/api/breeds/image/random";
+               fetch(url, { 
+                    method: 'get',
+               })
+               .then(function(response) { 
+                    response.json().then(function(data){
+                         console.log('Resultado da Requisição: ' + data.message); 
+
+                         var imgDog = document.getElementById("img_dog2");
+                         imgDog.src = data.message;
+                    });
+               })
+               .catch(function(err) { 
+                    console.error('O seguinte erro ocorreu durante a requisição: ' + err);
+               });
+
+          }
+	</script>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Club - Dashboard Fitness</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-Gv+oZ6kBuij4UO7fT+Yl7g42p9Z5KZkDDoLlR3C0S4jYVtG9uUw7QE0q6V1CqT7FQeQ8ZW22cz3JC7xW3xq0zA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand"><i class="fas fa-dumbbell"></i> Health Club</div>
+            <nav>
+                <button class="active" data-view="dashboard"><i class="fas fa-chart-line"></i>Dashboard</button>
+                <button data-view="profileView"><i class="fas fa-user"></i>Meu Perfil</button>
+                <button data-view="workout"><i class="fas fa-list-check"></i>Ficha de Treino</button>
+                <button data-view="daily"><i class="fas fa-calendar-check"></i>Treino Diário</button>
+                <button data-view="calendar"><i class="fas fa-calendar-alt"></i>Calendário</button>
+                <button data-view="diet"><i class="fas fa-apple-alt"></i>Dieta</button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="themeToggle"><i class="fas fa-moon"></i>Escuro</button>
+                <button id="exportButton" class="btn btn-secondary"><i class="fas fa-file-export"></i>Exportar dados</button>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="title-group">
+                    <h1>Bem-vindo a Health Club</h1>
+                    <p>Seu painel fitness com treinos, dieta e progresso centralizados.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" data-view="dashboard">Ir para o resumo</button>
+                </div>
+            </header>
+
+            <section id="dashboard" class="view active">
+                <div class="section-header">
+                    <div>
+                        <h2>Resumo do Dia</h2>
+                        <p class="subtitle">Verifique seu progresso de treino e dieta rapidamente.</p>
+                    </div>
+                </div>
+                <div class="card-grid">
+                    <div class="card small">
+                        <div>
+                            <h3>Status do treino</h3>
+                            <p id="workoutStatus">Aberto</p>
+                        </div>
+                        <div class="small-icon"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                    <div class="card small">
+                        <div>
+                            <h3>Calorias</h3>
+                            <p id="caloriesConsumed">0 kcal</p>
+                        </div>
+                        <div class="small-icon"><i class="fas fa-fire"></i></div>
+                    </div>
+                    <div class="card small">
+                        <div>
+                            <h3>Treinos semanais</h3>
+                            <p id="weeklyProgress">0 treinos</p>
+                        </div>
+                        <div class="small-icon"><i class="fas fa-stopwatch"></i></div>
+                    </div>
+                    <div class="card small">
+                        <div>
+                            <h3>Nível</h3>
+                            <p id="levelBadge">Iniciante</p>
+                        </div>
+                        <div class="small-icon"><i class="fas fa-star"></i></div>
+                    </div>
+                </div>
+                <div class="card-grid">
+                    <div class="card chart-card">
+                        <div class="section-header"><h2>Evolução semanal</h2></div>
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                    <div class="card chart-card">
+                        <div class="section-header"><h2>Consumo de calorias</h2></div>
+                        <canvas id="caloriesChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="profileView" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Meu Perfil</h2>
+                        <p class="subtitle">Edite seus dados e acompanhe sua foto de perfil.</p>
+                    </div>
+                </div>
+                <div id="profileDisplay"></div>
+            </section>
+
+            <section id="workout" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Ficha de Treino</h2>
+                        <p class="subtitle">Gerencie grupos, adicione exercícios e organize seus treinos.</p>
+                    </div>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="addGroupButton"><i class="fas fa-plus"></i> Novo grupo</button>
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input id="exerciseSearch" type="search" placeholder="Buscar exercício...">
+                        </div>
+                    </div>
+                </div>
+                <div id="workoutGroups" class="card-list"></div>
+            </section>
+
+            <section id="daily" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Treino Diário</h2>
+                        <p class="subtitle">Registre seu treino do dia e defina o dia de conclusão.</p>
+                    </div>
+                </div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="input-group">
+                            <label>Data do treino</label>
+                            <input type="date" id="logDate">
+                        </div>
+                        <button class="btn btn-secondary" onclick="markWorkoutCompleted()"><i class="fas fa-check"></i> Marcar como concluído</button>
+                        <button class="btn btn-primary" onclick="saveDailyLog()"><i class="fas fa-save"></i> Salvar treino do dia</button>
+                    </div>
+                    <div class="card">
+                        <div id="groupSelection"></div>
+                    </div>
+                </div>
+                <div id="dailyLog" class="card-list"></div>
+            </section>
+
+            <section id="calendar" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Calendário</h2>
+                        <p class="subtitle">Veja quais dias foram concluídos e revise registros anteriores.</p>
+                    </div>
+                </div>
+                <div id="calendarGrid"></div>
+            </section>
+
+            <section id="diet" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Dieta e Metas</h2>
+                        <p class="subtitle">Defina metas nutricionais e registre seu consumo diário.</p>
+                    </div>
+                </div>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Metas diárias</h3>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Calorias</label><input type="number" id="goalCalories" placeholder="2000"></div>
+                            <div class="input-group"><label>Proteína (g)</label><input type="number" id="goalProtein" placeholder="150"></div>
+                            <div class="input-group"><label>Carboidratos (g)</label><input type="number" id="goalCarbs" placeholder="200"></div>
+                            <div class="input-group"><label>Gordura (g)</label><input type="number" id="goalFat" placeholder="70"></div>
+                        </div>
+                        <button class="btn btn-primary" id="saveGoals"><i class="fas fa-bullseye"></i> Salvar metas</button>
+                    </div>
+                    <div class="card">
+                        <h3>Log diário</h3>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Calorias</label><input type="number" id="logCalories" placeholder="0"></div>
+                            <div class="input-group"><label>Proteína</label><input type="number" id="logProtein" placeholder="0"></div>
+                            <div class="input-group"><label>Carboidratos</label><input type="number" id="logCarbs" placeholder="0"></div>
+                            <div class="input-group"><label>Gordura</label><input type="number" id="logFat" placeholder="0"></div>
+                        </div>
+                        <button class="btn btn-primary" id="saveDiet"><i class="fas fa-utensils"></i> Salvar log</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Progresso Diário</h3>
+                    <div class="progress-section">
+                        <div class="progress-item">
+                            <label>Calorias</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="caloriesProgress" style="width: 0%"></div>
+                            </div>
+                            <span id="caloriesProgressText">0 / 0 kcal</span>
+                        </div>
+                        <div class="progress-item">
+                            <label>Proteína</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="proteinProgress" style="width: 0%"></div>
+                            </div>
+                            <span id="proteinProgressText">0 / 0 g</span>
+                        </div>
+                        <div class="progress-item">
+                            <label>Carboidratos</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="carbsProgress" style="width: 0%"></div>
+                            </div>
+                            <span id="carbsProgressText">0 / 0 g</span>
+                        </div>
+                        <div class="progress-item">
+                            <label>Gordura</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="fatProgress" style="width: 0%"></div>
+                            </div>
+                            <span id="fatProgressText">0 / 0 g</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal</h3>
+                <button id="modalClose" class="btn btn-secondary"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modalBody"></div>
+            <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+                <button id="modalPrimary" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastRoot" class="toast-wrapper"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

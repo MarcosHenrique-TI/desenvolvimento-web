@@ -1,0 +1,21 @@
+#include <stdio.h>
+int main (){
+    int num, contador = 0;
+    float maior;
+    maior = 0;
+
+    printf("Digite um numero inteiro: ");
+    scanf("%d", &num);
+    for (contador = 1; contador <= 15; contador++){
+        
+     while (num != 0){
+        printf("O numero lido foi: %d\n", num);
+        printf("Digite um numero inteiro: ");
+        scanf("%d", &num);
+     }
+    }
+  if (num > maior){
+        maior = num;
+    }
+    printf("O maior numero digitado foi: %.2f\n", maior);
+}

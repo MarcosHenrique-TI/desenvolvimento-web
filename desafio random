@@ -1,0 +1,39 @@
+#include <stdio.h>
+int main ()
+{
+int func, totalF;
+float salario, media, maior, soma;
+maior = 0;
+salario = 0;
+media = 0;
+
+
+printf("digite o numero de funcionarios: ");
+scanf("%d", &totalF); 
+if (totalF < 0 ){
+    printf("Número inválido de Funcionários");
+}
+
+
+    for (func= 1; func <= totalF; func++) {
+        printf("Digite o salário do funcionário (%d): ", func);
+        scanf("%f", &salario);
+
+        if (salario < 0) {
+            printf("Salário inválido. Tente novamente.\n");
+            func--; // Repete a iterao atual
+            return 1;
+        }
+
+        soma = soma + salario; // Acumula o salário para calcular a média depois
+        media = soma / func; // Calcula a média dos salários
+
+        if (salario > maior) {
+            maior = salario;
+        }
+    }
+
+    printf("O maior salário digitado foi: R$%.2f\n", maior);
+    printf("A média dos salários foi: R$%.2f\n", media);
+    return 0;
+}
